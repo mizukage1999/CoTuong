@@ -1,0 +1,36 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+html, body {
+	height: 100%;
+}
+
+body {
+	background: #fff;
+	font: 100%/1 Verdana, Geneva, sans-serif;
+	/* Fix for mobile */
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left:0;
+}
+
+h2 {
+	font: 1.8rem/1 Georgia, "Times New Roman", Times, serif;
+	text-align: center;
+	letter-spacing: 0.02em;
+	margin: 1.6rem 0 1rem 0;
+	color: #41372e
+}
+h2:first-child {
+	margin-top: 0;
+}
+p, div.space {
+	line-height: 1.5;
+	margin-bottom: 1rem;
+}
+p:last-child {
+	margin-bottom: 0;
+}
