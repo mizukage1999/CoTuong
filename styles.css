@@ -34,3 +34,153 @@ p, div.space {
 p:last-child {
 	margin-bottom: 0;
 }
+fieldset {
+	display: inline-block;
+	vertical-align: top;
+	line-height: 1.5;
+	font-size: 0.8rem;
+	border: none;
+	margin: 0.6rem;
+	text-align: left;
+}
+fieldset:last-child {
+	margin-bottom: 0.6rem;
+}
+legend {
+	font: bold 0.9rem/1 "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	margin: 0 0rem 0.6rem 0rem;
+	padding: 0 0.3rem;
+	color: #41372e
+}
+.modal fieldset{
+	text-align: center;
+}
+
+button {
+	display: inline-block;
+	margin: 0.3rem;
+	padding: 0.7rem 0.8rem;
+	font: bold 0.8rem/1 "Lucida Grande", "Lucida Sans Unicode", "Trebuchet MS", Helvetica, sans-serif;
+	text-align: center;
+	background: #fff padding-box;
+	color: #333;
+	outline: none;
+	border: 1px solid #aaa;
+}
+button:enabled:hover {
+	border-color: #BC0E29;
+	background-color: #BC0E29;
+	color: #fff;
+	cursor: pointer;
+}
+button:enabled:active {
+	border-color: transparent;
+}
+
+.selgrp {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0.3rem;
+}
+select {
+	display: inline-block;
+	vertical-align: middle;
+	font: 0.8rem/1 "Lucida Grande", "Lucida Sans Unicode", "Trebuchet MS", Helvetica, sans-serif;
+	color: #333;
+	background: #fff;
+	border: 1px solid #aaa;
+}
+select option {
+	padding: 0.3rem;
+}
+
+.radiogrp {
+	margin: 0.3rem;
+	display: inline-block;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+input[type='radio'] + label {
+	display: table-cell;
+	padding: 0.7rem 0.8rem;
+	font: bold 0.8rem/1 "Lucida Grande", "Lucida Sans Unicode", "Trebuchet MS", Helvetica, sans-serif;
+	background: #fff padding-box;
+	color: #333;
+	outline: none;
+	border: 1px inset #aaa;
+}
+input[type='radio']:enabled + label:hover {
+	color: #BC0E29;
+	border: 1px solid #BC0E29;
+	cursor: pointer;
+}
+input[type='radio']:enabled:checked + label {
+	border: 1px solid #BC0E29;
+	background-color: #BC0E29;
+	color: #fff;
+}
+input[type='radio'] {
+	display: none;
+}
+
+input[type='checkbox'] + label {
+	display: block;
+	font: 0.8rem/1 "Lucida Grande", "Lucida Sans Unicode", "Trebuchet MS", Helvetica, sans-serif;
+	color: #333;
+	outline: none;
+}
+input[type='checkbox'] + label .switch {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	height: 1.0rem;
+	width: 1.8rem;
+	margin: 0.3rem 0.6rem 0.3rem 0.3rem;
+	background: #fff padding-box;
+	border: 1px solid #aaa;
+	border-radius: 0.5rem;
+}
+input[type='checkbox'] + label .slider {
+	position: absolute;
+	width: 0.65rem;
+	height: 0.65rem;
+	width: calc(1.0rem - 6px);
+	height: calc(1.0rem - 6px);
+	top: 3px;
+	left: 3px;
+	background: #333;
+	border-radius: 50%;
+}
+
+input[type='checkbox']:enabled + label:hover {
+	color: #BC0E29;
+	cursor: pointer;
+}
+input[type='checkbox']:enabled + label:hover .switch {
+	border-color: #BC0E29;
+}
+input[type='checkbox']:enabled + label:hover .slider {
+	background: #BC0E29;
+}
+
+input[type='checkbox']:checked + label .switch {
+	border-color: #BC0E29;
+	background-color: #BC0E29;
+}
+input[type='checkbox']:checked + label:hover .switch {
+	border-color: transparent;
+}
+input[type='checkbox']:enabled:checked + label .slider {
+	background: #fff;
+	left: auto;
+	right: 3px;
+}
+
+input[type='checkbox'] {
+	display: none;
+}
+
+input[type="text"] {
+	font-size: 1rem;
+}
