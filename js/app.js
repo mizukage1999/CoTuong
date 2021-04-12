@@ -179,3 +179,27 @@ let main = function () {
     };
     elSelSkill.addEventListener('change', skillChange);
     elSelSideSkill.addEventListener('change', skillChange);
+
+
+
+
+////////////////////// Button Local/////////////////
+
+
+    elBtnLocal.addEventListener('click', function () {
+        board = new Board(elBoard, TYPE_LOCAL, false, 0);
+        start();
+        hideModals();
+    });
+
+    elBtnComputer.addEventListener('click', function() {
+        showModal('mod_computer');
+    });
+
+    elBtnComputerStart.addEventListener('click', function() {
+        board = new Board(elBoard, 1 - elSelFirstMove.selectedIndex, false, elSelHandicap.selectedIndex);
+        start(true, elSelSkill.selectedIndex);
+        hideModals();
+    });
+
+    
