@@ -145,3 +145,27 @@ let main = function () {
         let cls = (computer) ? 'play_computer' : (board.online) ? 'play_online' : 'play_local';
         elBody.classList.add(cls);
     }
+        // DOM
+    let resize = function () {
+        let availWidth = elGame.clientWidth;
+        let availHeight = elGame.clientHeight;
+
+
+        let height = availHeight;
+        let width = ~~((height * 9)/10) + 1;
+        if (width > availWidth) {
+            width = availWidth;
+            height = ~~((width * 10)/9) + 1;
+        }
+
+        width -= 2; // borders
+        height -= 2;
+
+        elBoard.style.width = width + 'px';
+        elBoard.style.height = height + 'px';
+
+        elMessages.scrollTop = elMessages.scrollHeight;
+
+        if (board) { board.resize(); }
+    };
+    window.addEventListener('resize', resize);
