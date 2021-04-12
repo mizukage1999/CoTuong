@@ -169,3 +169,13 @@ let main = function () {
         if (board) { board.resize(); }
     };
     window.addEventListener('resize', resize);
+
+    //resize(); // Not necessary because of setBoardSize() below
+
+    let skillChange = function (evt) {
+        let skill = evt.target.selectedIndex;
+        elSelSkill.options[skill].selected = true;
+        elSelSideSkill.options[skill].selected = true;
+    };
+    elSelSkill.addEventListener('change', skillChange);
+    elSelSideSkill.addEventListener('change', skillChange);
