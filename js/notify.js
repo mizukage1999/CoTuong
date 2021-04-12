@@ -50,3 +50,25 @@ export function pushAsk(callback) {
         }
     }
 }
+
+
+export function pushStatus() {
+    if (!('Notification' in window)) {
+        return 'denied';
+    }
+    return Notification.permission;
+}
+
+export function pushNotify(title, body) {
+    let obj;
+    if (body) {
+        obj = {body: body};
+    }
+    return new Notification(title, obj);
+}
+
+
+export function playSound(snd) {
+    snd.currentTime = 0;
+    snd.play();
+}
