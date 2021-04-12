@@ -72,3 +72,76 @@ let hideModals = function () {
         elBody.classList.remove(MODALS[i]);
     }
 }
+
+const TYPE_LOCAL = -1;
+const TYPE_FIRSTMOVE = 1;
+const TYPE_OTHERMOVE = 0;
+
+let main = function () {
+    let peerId = new URLSearchParams(window.location.search).get('peerId');
+    let peerCom = new PeerCom();
+
+    if (peerId !== null) {
+        console.log('I am slave');
+        peerCom.begin(peerId);
+        showModal('mod_waiting');
+    } else {
+        console.log('I am master');
+        peerCom.begin();
+        showModal('mod_gameselect');
+    }
+
+    elBody.classList.remove('preload');
+
+    let board = null;
+
+    let start = function (computer=false, skill=0) {
+        board.animated = (storage.getItem('animated') !== 'disabled');
+
+        if (computer) { // vs. computer
+            board.setSearch(16);
+            board.millis = Math.pow(10, skill + 1);
+            board.response();
+        }
+
+        let onmove = function(evt) {
+            let move = evt.detail;
+            if (board.online) {
+                if (!move.isComputer) {
+                    peerCom.send('Move', move);
+                }
+                else {
+                    if (move.check) {
+                        notify.flashTitle('Check!');
+                    }
+                    else {
+                        notify.flashTitle('Your move!');
+                    }
+                }
+            }
+            if (storage.getItem('notiSound') === 'enabled') {
+                if (move.check) { notify.playSound(elSndCheck); }
+                else if (move.capture) { notify.playSound(elSndCapture); }
+                else { notify.playSound(elSndMove); }
+            }
+        };
+        board.addEventListener('move', onmove);
+
+        let ongameover = function(evt) {
+            let details = evt.detail;
+            if (board.online) {
+                if (details.checkmate) {
+                    notify.flashTitle('Checkmate!');
+                }
+                else {
+                    notify.flashTitle('Gameover!');
+                }
+            }
+            elMsgResult.innerHTML = details.message;
+            showModal('mod_gameover');
+        };
+        board.addEventListener('gameover', ongameover);
+
+        let cls = (computer) ? 'play_computer' : (board.online) ? 'play_online' : 'play_local';
+        elBody.classList.add(cls);
+    }
