@@ -45,6 +45,53 @@ export default class PeerCom extends EventTarget {
             this._conn.on('open', onconnected);
             this._conn.on('close', ondisconnected);
         }.bind(this);
+
+        let onopen = function (id) {
+            console.log('Established connection to Peer server. My ID: ' + id);
+            if (sessionStorage) {
+                sessionStorage.setItem('myId', id);
+            }
+            if (pId) { // Connect to the peer.
+                console.log('Connecting to peer at ID: ' + pId);
+                onconnect(this._peer.connect(pId));
+            } else { // or wait for a connection
+                console.log('Waiting for connection from peer.')
+                this.dispatchEvent(new CustomEvent('wait', { detail: id }));
+            }
+            this._peer.on('connection', onconnect);
+        }.bind(this);
+
+        this._peer.on('open', onopen);
+    }
+    disconnect() {
+        if (this._conn) { this._conn.close(); }
+        if (this._peer) { this._peer.disconnect(); }
     }
 
+    _received(obj) {
+        let type = obj.type;
+        let data = obj.data;
+        if (this._receiveHandlers[type]) {
+            let handle = function () {
+                this._receiveHandlers[type](data)
+            }.bind(this);
+            window.setTimeout(handle, 0);
+        }
+    }
+
+    addReceiveHandler(type, fct) {
+        this._receiveHandlers[type] = fct;
+    }
+
+    removeReceiveHandler(type) {
+        delete this._receiveHandlers[type];
+    }
+
+    send(type, data) {
+        if (!this._conn) { throw new Error('Connection not established!'); }
+        this._conn.send({
+            'type': type,
+            'data': data
+        });
+    }
 }
