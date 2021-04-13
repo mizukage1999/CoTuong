@@ -3,7 +3,10 @@ import * as storage from './storage.js';
 import PeerCom from './PeerCom.js';
 import Board from './chess/board.js';
 
-
+/*
+import test from './chess/test.js';
+test();
+*/
 
 const elBody = document.getElementById('xiangqi_board_game');
 
@@ -145,7 +148,8 @@ let main = function () {
         let cls = (computer) ? 'play_computer' : (board.online) ? 'play_online' : 'play_local';
         elBody.classList.add(cls);
     }
-        // DOM
+
+    // DOM
     let resize = function () {
         let availWidth = elGame.clientWidth;
         let availHeight = elGame.clientHeight;
@@ -169,7 +173,6 @@ let main = function () {
         if (board) { board.resize(); }
     };
     window.addEventListener('resize', resize);
-
     //resize(); // Not necessary because of setBoardSize() below
 
     let skillChange = function (evt) {
@@ -180,11 +183,9 @@ let main = function () {
     elSelSkill.addEventListener('change', skillChange);
     elSelSideSkill.addEventListener('change', skillChange);
 
-
-
-
-////////////////////// Button Local/////////////////
-
+    // elBtnOnline.addEventListener('click', function () {
+    //     showModal('mod_shareurl');
+    // });
 
     elBtnLocal.addEventListener('click', function () {
         board = new Board(elBoard, TYPE_LOCAL, false, 0);
@@ -201,6 +202,24 @@ let main = function () {
         start(true, elSelSkill.selectedIndex);
         hideModals();
     });
+
+    // elMsgUrl.addEventListener('click', function () {
+    //     window.getSelection().selectAllChildren(elMsgUrl);
+    // });
+
+    // elBtnCopyUrl.addEventListener('click', function () {
+    //     window.getSelection().selectAllChildren(elMsgUrl);
+    //     document.execCommand('copy');
+    // });
+
+    // elBtnChat.addEventListener('click', function () {
+    //     elBody.classList.toggle('chat');
+    //     if (elBody.classList.contains('chat')) {
+    //         elBody.classList.remove('unread');
+    //     }
+    //     resize();
+    // });
+
     elBtnSettings.addEventListener('click', function () {
         elBody.classList.toggle('settings');
         resize();
@@ -294,6 +313,19 @@ let main = function () {
     else {
         elChkNotiPush.checked = (storage.getItem('notiPush') === 'enabled');
     }
+
+    // Peer2Peer
+    // peerCom.addEventListener('wait', function (evt) {
+    //     let peerUrl = new URL(window.location.href);
+    //     peerUrl.searchParams.set('peerId', evt.detail);
+
+    //     console.log('Have peer connect to: ' + peerUrl);
+    //     elMsgUrl.innerHTML = peerUrl.href;
+
+    //     peerWait.classList.toggle('hide');
+    //     peerShow.classList.toggle('hide');
+    // });
+
     peerCom.addEventListener('connectedpeer', function (evt) {
         console.log('A peer connected');
 
@@ -371,4 +403,4 @@ let main = function () {
 }
 
 main();
-    
+

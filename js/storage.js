@@ -1,3 +1,29 @@
+
+
+function localStorageAvailable() {
+    try {
+        let storage = window.localStorage;
+        let x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch(e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
+    }
+}
+
 class Storage {
     constructor() { this.store = {}; }
     setItem(key, value) { this.store[key] = value; }
@@ -19,15 +45,4 @@ export function setItem(key, string) {
 export function getItem(key) {
     return store.getItem(key);
 }
-function localStorageAvailable() {
-    try {
-        let storage = window.localStorage;
-        let x = '_storage_test_';
-        storage.setItem(x, x);
-        storage.removeItem(x);
-        return true;
-    }
-    catch(e) {
-        return e instanceof DOMException && (e.code === 22 || e.code === 1014 || e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&(storage && storage.length !== 0);
-    }
-}
+

@@ -1,4 +1,9 @@
+/*
+ * Page Title
+ */
+
 let pageTitle = document.title;
+
 export function setTitle(title) {
     pageTitle = title;
     document.title = title;
@@ -18,7 +23,11 @@ export function flashTitle(msg) {
     }
     window.addEventListener('focus', clear);
 }
-//Push notification to ask user
+
+/*
+ * Push Notifications
+ */
+
 export function pushAsk(callback) {
     function checkNotificationPromise() {
         try {
@@ -35,6 +44,8 @@ export function pushAsk(callback) {
         }
         callback(permission);
     }
+
+    // Let's check if the browser supports notifications
     if (!"Notification" in window) {
         console.log("This browser does not support notifications.");
     } else {
@@ -51,7 +62,6 @@ export function pushAsk(callback) {
     }
 }
 
-
 export function pushStatus() {
     if (!('Notification' in window)) {
         return 'denied';
@@ -67,6 +77,9 @@ export function pushNotify(title, body) {
     return new Notification(title, obj);
 }
 
+/*
+ * Sounds
+ */
 
 export function playSound(snd) {
     snd.currentTime = 0;
