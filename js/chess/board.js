@@ -506,4 +506,19 @@ export default class Board extends EventTarget {
       this.flushBoard();
       this.response();
     }
+    expand() {
+      if (this.busy) {
+        return;
+      }
+      this.result = RESULT_UNKNOWN;
+      if (this.pos.mvList.length > 1) {
+        this.pos.redoMakeMove();
+      }
+      if (this.pos.mvList.length > 1 && this.computerMove()) {
+          console.log(this.computer, this.computerMove());
+        this.pos.redoMakeMove();
+      }
+      this.flushBoard();
+      this.response();
+    }
 }

@@ -539,6 +539,19 @@ function IN_BOARD(sq) {
       this.addPiece(sqDst, pc, ADD_PIECE);
     }
   }
+
+  Position.prototype.redoMovePiece = function() {
+    let mv = this.mvList.push();
+    let sqSrc = SRC(mv);
+    let sqDst = DST(mv);
+    let pc = this.squares[sqDst];
+    this.addPiece(sqDst, pc, DEL_PIECE);
+    this.addPiece(sqSrc, pc, ADD_PIECE);
+    pc = this.pcList.push();
+    if (pc > 1) {
+      this.addPiece(sqDst, pc, ADD_PIECE);
+    }
+  }
   
   Position.prototype.changeSide = function() {
     this.sdPlayer = 1 - this.sdPlayer;
@@ -559,6 +572,20 @@ function IN_BOARD(sq) {
     ++this.distance;
     return true;
   }
+
+  Position.prototype.makeMove1 = function(mv) {
+    let zobristKey = this.zobristKey;
+    this.movePiece(mv);
+    if (this.checked()) {
+      this.redoMovePiece(mv);
+      return false;
+    }
+    this.keyList.push(zobristKey);
+    this.changeSide();
+    this.chkList.push(this.checked());
+    ++this.distance;
+    return true;
+  }
   
   Position.prototype.undoMakeMove = function() {
     this.distance --;
@@ -567,6 +594,15 @@ function IN_BOARD(sq) {
     this.keyList.pop();
     this.undoMovePiece();
   }
+
+  Position.prototype.RedoMakeMove = function() {
+    this.distance ++;
+    this.chkList.push();
+    this.changeSide();
+    this.keyList.push();
+    this.movePiece();
+  }
+
   
   Position.prototype.nullMove = function() {
     this.mvList.push(0);

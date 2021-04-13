@@ -47,6 +47,9 @@ const elBtnSendMsg = document.getElementById('btnSendMsg');
 
 // Controls
 const elBtnUndo = document.getElementById('btnUndo');
+const elBtnRedo = document.getElementById('btnRedo');
+
+
 const elSelSideSkill = document.getElementById('selSideSkill');
 const elChkBoardSize = document.getElementById('chkBoardSize');
 const elChkAnimated = document.getElementById('chkAnimated');
@@ -254,6 +257,10 @@ let main = function () {
     elBtnUndo.addEventListener('click', function (evt) {
         if (board) { board.retract(); }
     });
+    elBtnRedo.addEventListener('click', function (evt) {
+        if (board) { board.expand() ; }
+    });
+
 
     let setBoardSize = function () {
         if (storage.getItem('boardSize') === 'disabled') {
