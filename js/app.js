@@ -201,5 +201,174 @@ let main = function () {
         start(true, elSelSkill.selectedIndex);
         hideModals();
     });
+    elBtnSettings.addEventListener('click', function () {
+        elBody.classList.toggle('settings');
+        resize();
+    });
 
+    elBtnCloseGameover.addEventListener('click', function () {
+        hideModals();
+    });
+
+    elBtnSendMsg.addEventListener('click', function() {
+        let msg = elTxtMsg.value;
+        elTxtMsg.value = '';
+        if (msg.replace(/\s/g, '').length) {
+            peerCom.send('Message', msg);
+            let html = '';
+            html += '<div class="sent">';
+            html += '<span class="person">You</span>';
+            html += '<span class="content"><span>' + msg + '</span></span>';
+            html += '</div>';
+            elMessages.innerHTML += html;
+        }
+        elMessages.scrollTop = elMessages.scrollHeight;
+    });
+
+    elTxtMsg.addEventListener('keypress', function (evt) {
+        if (evt.keyCode === 13 && !evt.shiftKey) {
+            evt.preventDefault();
+            elBtnSendMsg.click();
+        }
+    });
+
+    elBtnUndo.addEventListener('click', function (evt) {
+        if (board) { board.retract(); }
+    });
+
+    let setBoardSize = function () {
+        if (storage.getItem('boardSize') === 'disabled') {
+            elBoard.style.maxWidth = '';
+            elBoard.style.maxHeight = '';
+        }
+        else {
+            elBoard.style.maxWidth = '521px';
+            elBoard.style.maxHeight = '577px';
+        }
+        resize();
+    };
+    elChkBoardSize.addEventListener('change', function(evt) {
+        let status = elChkBoardSize.checked ? 'enabled' : 'disabled';
+        storage.setItem('boardSize', status);
+        setBoardSize();
+    });
+    elChkBoardSize.checked = !(storage.getItem('boardSize') === 'disabled');
+    setBoardSize();
+
+    elChkNotiSound.addEventListener('change', function(evt) {
+        let status = elChkNotiSound.checked ? 'enabled' : 'disabled';
+        storage.setItem('notiSound', status);
+    });
+    elChkNotiSound.checked = (storage.getItem('notiSound') === 'enabled');
+
+    elChkAnimated.addEventListener('change', function(evt) {
+        let status = elChkAnimated.checked ? 'enabled' : 'disabled';
+        storage.setItem('animated', status);
+        if (board) {
+            board.animated = elChkAnimated.checked;
+        }
+    });
+    elChkAnimated.checked = (storage.getItem('animated') !== 'disabled');
+
+    elChkNotiPush.addEventListener('change', function(evt) {
+        if (notify.pushStatus() !== 'granted' && elChkNotiPush.checked) {
+            notify.pushAsk(function (permission) {
+                if (permission === 'granted') {
+                    storage.setItem('notiPush', 'enabled');
+                }
+                else if (permission === 'denied') {
+                    elChkNotiPush.checked = false;
+                    elChkNotiPush.disabled = true;
+                }
+            });
+        }
+        else {
+            let status = elChkNotiPush.checked ? 'enabled' : 'disabled';
+            storage.setItem('notiPush', status);
+        }
+    });
+    if (notify.pushStatus() === 'denied') { // disable
+        elChkNotiPush.checked = false;
+        elChkNotiPush.disabled = true;
+    }
+    else {
+        elChkNotiPush.checked = (storage.getItem('notiPush') === 'enabled');
+    }
+    peerCom.addEventListener('connectedpeer', function (evt) {
+        console.log('A peer connected');
+
+        if (!peerId) { // New game
+            board = new Board(elBoard, TYPE_FIRSTMOVE, true, 0);
+            start();
+            hideModals();
+        }
+        peerId = evt.detail;
+
+        if (board) { // Send start signal to peer
+            peerCom.send('Start', {
+                type: board.computer,
+                moves: board.pos.mvList
+            });
+        }
+
+        // Append URL with peerId
+        let peerUrl = new URL(window.location.href);
+        peerUrl.searchParams.set('peerId', peerId);
+        window.history.pushState({ path: peerUrl.href }, '', peerUrl.href);
+    });
+
+    // peerCom.addEventListener('disconnected', function () {
+    //     console.log('Peer disconnected')
+    //     showModal('mod_disconnected');
+    // });
+
+    // Peer2Peer Data
+    // Games Start / Reconnect
+    peerCom.addReceiveHandler('Start', function (obj) {
+        board = new Board(elBoard, (obj.type) ? 0 : 1, true, 0);
+        for (let i = 1, len = obj.moves.length-1; i < len; ++i) {
+            board.addMove(obj.moves[i], board.computerMove());
+        }
+        start();
+        board.addMove(obj.moves[obj.moves.length-1], board.computerMove());
+        hideModals();
+    });
+
+    // Move
+    let notiMove = null;
+    peerCom.addReceiveHandler('Move', function (move) {
+        board.addMove(move.move, true);
+        if (!document.hasFocus()) {
+            if (storage.getItem('notiPush') === 'enabled') {
+                // We should check for gameover here
+                notiMove = notify.pushNotify('Your Move');
+            }
+        }
+    });
+    window.addEventListener('focus', function(evt) {
+        if (notiMove) { notiMove.close(); }
+    });
+
+    // Chat
+    // peerCom.addReceiveHandler('Message', function(msg) {
+    //     let html = '';
+    //     html += '<div class="received">';
+    //     html += '<span class="person">Opponent</span>';
+    //     html += '<span class="content"><span>' + msg + '</span></span>';
+    //     html += '</div>';
+    //     elMessages.innerHTML += html;
+    //     elMessages.scrollTop = elMessages.scrollHeight;
+    //     if (!document.hasFocus()) {
+    //         if (storage.getItem('notiPush') === 'enabled') {
+    //             let noti = notify.pushNotify('New Message', 'Opponent: ' + msg);
+    //             window.setTimeout(noti.close.bind(noti), 5000);
+    //         }
+    //     }
+    //     if (!elBody.classList.contains('chat')) {
+    //         elBody.classList.add('unread');
+    //     }
+    // });
+}
+
+main();
     
