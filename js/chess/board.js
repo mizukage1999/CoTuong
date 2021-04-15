@@ -20,7 +20,7 @@ const PIECE_NAME = [
   "rk", "ra", "rb", "rn", "rr", "rc", "rp", null,
   "bk", "ba", "bb", "bn", "br", "bc", "bp", null,
 ];
-// vẽ bàn cờ
+// vẽ bàn cờ..
 const STARTUP_FEN = [
   "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w",
   "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKAB1R w",
@@ -39,10 +39,7 @@ export default class Board extends EventTarget {
     constructor(element, computer, online, handicap) {
       super();
       this.element = element
-
       this.computer = computer;
-      this.online = online;
-
       this.pos = new Position();
       this.pos.fromFen(STARTUP_FEN[handicap]);
 
@@ -422,22 +419,14 @@ export default class Board extends EventTarget {
           this.busy = false;
           return;
       }
-      else if (this.online) { // online game, opponent's move
-          this.busy = true;
-          return;
-      }
+      // else if (this.online) { // online game, opponent's move
+      //     this.busy = true;
+      //     return;
+      // }
       else if (!this.search) { // local game
         this.busy = false;
         return;
       }
-      // Computer game, computer's move
-      this.busy = true; // Should have already happened, but stay busy until computer makes a move
-      this.thinking.style.display = "inline-block";
-      let think = function() {
-        this.addMove(this.search.searchMain(LIMIT_DEPTH, this.millis), true);
-        this.thinking.style.display = "none";
-      }.bind(this);
-      setTimeout(think, 250);
     }
     
     clickSquare(sq_) {
@@ -460,7 +449,7 @@ export default class Board extends EventTarget {
         this.addMove(MOVE(this.sqSelected, sq), false);
       }
     }
-    
+    // Image chess //res
     drawSquare(sq, selected) {
       let img = this.imgSquares[this.flipped(sq)];
       let name = PIECE_NAME[this.pos.squares[sq]];
@@ -492,6 +481,7 @@ export default class Board extends EventTarget {
       this.response();
     }
     
+    // function Undo
     retract() {
       if (this.busy) {
         return;
@@ -500,25 +490,28 @@ export default class Board extends EventTarget {
       if (this.pos.mvList.length > 1) {
         this.pos.undoMakeMove();
       }
-      if (this.pos.mvList.length > 1 && this.computerMove()) {
-          console.log(this.computer, this.computerMove());
-        this.pos.undoMakeMove();
-      }
+      // if (this.pos.mvList.length > 1 && this.computerMove()) {
+      //     console.log(this.computer, this.computerMove());
+      //   this.pos.undoMakeMove();
+      // }
       this.flushBoard();
       this.response();
     }
+
+        // function Redo (unfinished)
+
     expand() {
       if (this.busy) {
         return;
       }
       this.result = RESULT_UNKNOWN;
       if (this.pos.mvList.length > 1) {
-        this.pos.redoMakeMove();
+        this.pos.redoMovePiece();
       }
-      if (this.pos.mvList.length > 1 && this.computerMove()) {
-          console.log(this.computer, this.computerMove());
-        this.pos.redoMakeMove();
-      }
+      // if (this.pos.mvList.length > 1 && this.computerMove()) {
+      //     console.log(this.computer, this.computerMove());
+      //   this.pos.redoMakeMove();
+      // }
       this.flushBoard();
       this.response();
     }

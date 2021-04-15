@@ -40,7 +40,6 @@ const elChkNotiPush = document.getElementById('chkNotiPush');
 
 const MODALS = [
     'mod_gameselect',
-    'mod_waiting',
     'mod_computer',
     'mod_gameover'
 ];
@@ -71,7 +70,6 @@ let main = function () {
     if (peerId !== null) {
         console.log('I am slave');
         peerCom.begin(peerId);
-        showModal('mod_waiting');
     } else {
         console.log('I am master');
         peerCom.begin();
@@ -85,34 +83,7 @@ let main = function () {
     let start = function (computer=false, skill=0) {
         board.animated = (storage.getItem('animated') !== 'disabled');
 
-        // if (computer) { // vs. computer
-        //     board.setSearch(16);
-        //     board.millis = Math.pow(10, skill + 1);
-        //     board.response();
-        // }
-
-        // let onmove = function(evt) {
-        //     let move = evt.detail;
-        //     if (board.online) {
-        //         if (!move.isComputer) {
-        //             peerCom.send('Move', move);
-        //         }
-        //         else {
-        //             if (move.check) {
-        //                 notify.flashTitle('Check!');
-        //             }
-        //             else {
-        //                 notify.flashTitle('Your move!');
-        //             }
-        //         }
-        //     }
-        //     if (storage.getItem('notiSound') === 'enabled') {
-        //         if (move.check) { notify.playSound(elSndCheck); }
-        //         else if (move.capture) { notify.playSound(elSndCapture); }
-        //         else { notify.playSound(elSndMove); }
-        //     }
-        // };
-        // board.addEventListener('move', onmove);
+        
 
         let ongameover = function(evt) {
             let details = evt.detail;

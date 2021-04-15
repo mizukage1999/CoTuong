@@ -47,13 +47,6 @@ export default class PeerCom extends EventTarget {
     removeReceiveHandler(type) {
         delete this._receiveHandlers[type];
     }
-
-
-    /**
-     * Send data to peer.
-     * @param {String} type String that describes the data.
-     * @param {*} data Data to send.
-     */
     
 }
 

@@ -595,7 +595,7 @@ function IN_BOARD(sq) {
     this.undoMovePiece();
   }
 
-  Position.prototype.RedoMakeMove = function() {
+  Position.prototype.redoMovePiece = function() {
     this.distance ++;
     this.chkList.push();
     this.changeSide();
