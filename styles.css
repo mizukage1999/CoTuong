@@ -1,10 +1,4 @@
-/*
- * Use https://autoprefixer.github.io/
- * with browsers > 0%
- * to compile with prefixes
- */
 
-/* Elements */
 * {
 	margin: 0;
 	padding: 0;
@@ -16,7 +10,6 @@ html, body {
 body {
 	background: #fff;
 	font: 100%/1 Verdana, Geneva, sans-serif;
-	/* Fix for mobile */
 	position: fixed;
 	top: 0;
 	right: 0;

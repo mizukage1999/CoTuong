@@ -3,10 +3,6 @@ import * as storage from './storage.js';
 import PeerCom from './PeerCom.js';
 import Board from './chess/board.js';
 
-/*
-import test from './chess/test.js';
-test();
-*/
 
 const elBody = document.getElementById('xiangqi_board_game');
 
