@@ -20,6 +20,7 @@ const PIECE_NAME = [
   "rk", "ra", "rb", "rn", "rr", "rc", "rp", null,
   "bk", "ba", "bb", "bn", "br", "bc", "bp", null,
 ];
+// vẽ bàn cờ
 const STARTUP_FEN = [
   "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w",
   "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKAB1R w",
