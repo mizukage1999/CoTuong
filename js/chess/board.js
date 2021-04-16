@@ -515,9 +515,12 @@ export default class Board extends EventTarget {
       this.flushBoard();
       this.response();
     }
+     //unfinished
+   save(){
+     
+   }
 }
-  //unfinished
-   save()
+ 
 
 
    

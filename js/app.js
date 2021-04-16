@@ -160,7 +160,6 @@ let main = function () {
         if (board) { board.save() ; }
     });
 
-
     // Set width height
     let setBoardSize = function () {
         if (storage.getItem('boardSize') === 'disabled') {
