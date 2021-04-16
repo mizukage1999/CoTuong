@@ -20,6 +20,7 @@ const elSndMove = document.getElementById('sndMove');
 // Forms
 
 const elBtnLocal = document.getElementById('btnLocal');
+const elBtnComputer = document.getElementById('btnComputer');
 const elBtnCloseGameover = document.getElementById('btnCloseGameover');
 const elMsgResult = document.getElementById('msgResult');
 
@@ -134,7 +135,9 @@ let main = function () {
         hideModals();
     });
 
-
+    elBtnComputer.addEventListener('click', function (){
+        alert("Tính năng đang phát triển");
+    });
     // Button Setting
     elBtnSettings.addEventListener('click', function () {
         elBody.classList.toggle('settings');
