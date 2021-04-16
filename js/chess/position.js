@@ -495,6 +495,8 @@ function IN_BOARD(sq) {
     this.chkList = [this.checked()];
     this.distance = 0;
   }
+
+  
   
   Position.prototype.addPiece = function(sq, pc, bDel) {
     let pcAdjust;

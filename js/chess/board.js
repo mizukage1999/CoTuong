@@ -518,9 +518,6 @@ export default class Board extends EventTarget {
      //unfinished
    save(){
      
-   }
+  }
+    
 }
- 
-
-
-   
