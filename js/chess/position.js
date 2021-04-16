@@ -573,19 +573,19 @@ function IN_BOARD(sq) {
     return true;
   }
 
-  Position.prototype.makeMove1 = function(mv) {
-    let zobristKey = this.zobristKey;
-    this.movePiece(mv);
-    if (this.checked()) {
-      this.redoMovePiece(mv);
-      return false;
-    }
-    this.keyList.push(zobristKey);
-    this.changeSide();
-    this.chkList.push(this.checked());
-    ++this.distance;
-    return true;
-  }
+  // Position.prototype.makeMove1 = function(mv) {
+  //   let zobristKey = this.zobristKey;
+  //   this.movePiece(mv);
+  //   if (this.checked()) {
+  //     this.redoMovePiece(mv);
+  //     return false;
+  //   }
+  //   this.keyList.push(zobristKey);
+  //   this.changeSide();
+  //   this.chkList.push(this.checked());
+  //   ++this.distance;
+  //   return true;
+  // }
   
   Position.prototype.undoMakeMove = function() {
     this.distance --;

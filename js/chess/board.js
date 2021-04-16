@@ -516,3 +516,8 @@ export default class Board extends EventTarget {
       this.response();
     }
 }
+  //unfinished
+   save()
+
+
+   

@@ -27,6 +27,7 @@ const elMsgResult = document.getElementById('msgResult');
 // Controls
 const elBtnUndo = document.getElementById('btnUndo');
 const elBtnRedo = document.getElementById('btnRedo');
+const elBtnSave = document.getElementById('btnSave');
 
 
 const elChkBoardSize = document.getElementById('chkBoardSize');
@@ -154,6 +155,11 @@ let main = function () {
     elBtnRedo.addEventListener('click', function (evt) {
         if (board) { board.expand() ; }
     });
+    // Button Save (unfinished)
+    elBtnSave.addEventListener('click', function (evt) {
+        if (board) { board.save() ; }
+    });
+
 
     // Set width height
     let setBoardSize = function () {
