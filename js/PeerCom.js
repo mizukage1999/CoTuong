@@ -2,7 +2,7 @@ let lastId = null;
 if (sessionStorage) {
     lastId = sessionStorage.getItem('myId');
 }
-
+// construction
 export default class PeerCom extends EventTarget {
     constructor() {
         super();

@@ -496,7 +496,7 @@ function IN_BOARD(sq) {
     this.distance = 0;
   }
 
-  
+
   
   Position.prototype.addPiece = function(sq, pc, bDel) {
     let pcAdjust;
@@ -542,18 +542,18 @@ function IN_BOARD(sq) {
     }
   }
 
-  Position.prototype.redoMovePiece = function() {
-    let mv = this.mvList.push();
-    let sqSrc = SRC(mv);
-    let sqDst = DST(mv);
-    let pc = this.squares[sqDst];
-    this.addPiece(sqDst, pc, DEL_PIECE);
-    this.addPiece(sqSrc, pc, ADD_PIECE);
-    pc = this.pcList.push();
-    if (pc > 1) {
-      this.addPiece(sqDst, pc, ADD_PIECE);
-    }
-  }
+  // Position.prototype.redoMovePiece = function() {
+  //   let mv = this.mvList.push();
+  //   let sqSrc = SRC(mv);
+  //   let sqDst = DST(mv);
+  //   let pc = this.squares[sqDst];
+  //   this.addPiece(sqDst, pc, DEL_PIECE);
+  //   this.addPiece(sqSrc, pc, ADD_PIECE);
+  //   pc = this.pcList.push();
+  //   if (pc > 0) {
+  //     this.addPiece(sqDst, pc, ADD_PIECE);
+  //   }
+  // }
   
   Position.prototype.changeSide = function() {
     this.sdPlayer = 1 - this.sdPlayer;
@@ -595,14 +595,16 @@ function IN_BOARD(sq) {
     this.changeSide();
     this.keyList.pop();
     this.undoMovePiece();
+    console.log(this.chkList, this.keyList)
   }
 
-  Position.prototype.redoMovePiece = function() {
+  Position.prototype.redoMakeMove = function() {
     this.distance ++;
     this.chkList.push();
     this.changeSide();
     this.keyList.push();
     this.movePiece();
+    console.log(this.chkList, this.keyList)
   }
 
   

@@ -20,7 +20,7 @@ const PIECE_NAME = [
   "rk", "ra", "rb", "rn", "rr", "rc", "rp", null,
   "bk", "ba", "bb", "bn", "br", "bc", "bp", null,
 ];
-// vẽ bàn cờ..
+// vẽ bàn cờ.. 
 const STARTUP_FEN = [
   "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w",
   "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKAB1R w",
@@ -34,7 +34,7 @@ function SQ_X(sq) {
 function SQ_Y(sq) {
   return (RANK_Y(sq) - 3);
 }
-
+//khai báo
 export default class Board extends EventTarget {
     constructor(element, computer, online, handicap) {
       super();
@@ -135,25 +135,25 @@ export default class Board extends EventTarget {
       }
       element.appendChild(elImgs);
     
-      this.thinking = new Image(43, 11);
-      this.thinking.alt = "Thinking...";
-      this.thinking.src = RESOURCES + 'thinking.gif';
-      this.thinking.style.position = 'absolute';
-      this.thinking.style.opacity = '0.5';
-      this.thinking.style.display = 'none';
-      element.appendChild(this.thinking);
+      // this.thinking = new Image(43, 11);
+      // this.thinking.alt = "Thinking...";
+      // this.thinking.src = RESOURCES + 'thinking.gif';
+      // this.thinking.style.position = 'absolute';
+      // this.thinking.style.opacity = '0.5';
+      // this.thinking.style.display = 'none';
+      // element.appendChild(this.thinking);
     
       this.flushBoard();
       this.resize();
     }
 
     resize() {
-        let width = this.element.clientWidth;
-        let height = this.element.clientHeight;
+        let width = this.element.clientWidth; // size witdh
+        let height = this.element.clientHeight; //size height
 
         // Thinking
-        this.thinking.style.left = ~~((width - THINKING_WIDTH)/2) + "px";
-        this.thinking.style.top = ~~((height - THINKING_HEIGHT)/2) + "px";
+        // this.thinking.style.left = ~~((width - THINKING_WIDTH)/2) + "px";
+        // this.thinking.style.top = ~~((height - THINKING_HEIGHT)/2) + "px";
 
         // Table
         let cWidth = ~~(width/(COLS+1) - 1); // -1 account for border
@@ -191,10 +191,10 @@ export default class Board extends EventTarget {
     }
     
     
-    setSearch(hashLevel) {
-      this.search = (hashLevel == 0) ? null : new Search(this.pos, hashLevel);
-      console.log(this.search);
-    }
+    // setSearch(hashLevel) {
+    //   this.search = (hashLevel == 0) ? null : new Search(this.pos, hashLevel);
+    //   console.log(this.search);
+    // }
     
     flipped(sq) {
       return (this.computer == 0) ? SQUARE_FLIP(sq) : sq;
@@ -204,9 +204,9 @@ export default class Board extends EventTarget {
       return this.pos.sdPlayer == this.computer;
     }
     
-    computerLastMove() {
-      return 1 - this.pos.sdPlayer == this.computer;
-    }
+    // computerLastMove() {
+    //   return 1 - this.pos.sdPlayer == this.computer;
+    // }
     
     addMove(mv, computerMove) {
       if (!this.pos.legalMove(mv) || !this.pos.makeMove(mv)) {
@@ -327,29 +327,29 @@ export default class Board extends EventTarget {
         return;
       }
     
-      let vlRep = this.pos.repStatus(3);
-      if (vlRep > 0) {
-        let msg;
-        vlRep = this.pos.repValue(vlRep);
-        if (vlRep > -WIN_VALUE && vlRep < WIN_VALUE) {
-          this.result = RESULT_DRAW;
-          msg = "Draw from repetition!";
-        } else if (computerMove == (vlRep < 0)) {
-          this.result = RESULT_LOSS;
-          msg = "You lose, but please don't give up!";
-        } else {
-          this.result = RESULT_WIN;
-          msg = "Congratulations on your win!";
-        }
-        let gameoverDetails = {
-          checkmate: false,
-          message: msg
-        };
-        this.dispatchEvent(new CustomEvent('move', { detail: moveDetails }));
-        this.dispatchEvent(new CustomEvent('gameover', { detail: gameoverDetails }));
-        this.busy = false;
-        return;
-      }
+      // let vlRep = this.pos.repStatus(3);
+      // if (vlRep > 0) {
+      //   let msg;
+      //   vlRep = this.pos.repValue(vlRep);
+      //   if (vlRep > -WIN_VALUE && vlRep < WIN_VALUE) {
+      //     this.result = RESULT_DRAW;
+      //     msg = "Draw from repetition!";
+      //   } else if (computerMove == (vlRep < 0)) {
+      //     this.result = RESULT_LOSS;
+      //     msg = "You lose, but please don't give up!";
+      //   } else {
+      //     this.result = RESULT_WIN;
+      //     msg = "Congratulations on your win!";
+      //   }
+      //   let gameoverDetails = {
+      //     checkmate: false,
+      //     message: msg
+      //   };
+      //   this.dispatchEvent(new CustomEvent('move', { detail: moveDetails }));
+      //   this.dispatchEvent(new CustomEvent('gameover', { detail: gameoverDetails }));
+      //   this.busy = false;
+      //   return;
+      // }
     
       if (this.pos.captured()) {
         let hasMaterial = false;
@@ -359,17 +359,17 @@ export default class Board extends EventTarget {
             break;
           }
         }
-        if (!hasMaterial) {
-          this.result = RESULT_DRAW;
-          let gameoverDetails = {
-            checkmate: false,
-            message: "Draw! Neither side has any offensive pieces."
-          };
-          this.dispatchEvent(new CustomEvent('move', { detail: moveDetails }));
-          this.dispatchEvent(new CustomEvent('gameover', { detail: gameoverDetails }));
-          this.busy = false;
-          return;
-        }
+        // if (!hasMaterial) {
+        //   this.result = RESULT_DRAW;
+        //   let gameoverDetails = {
+        //     checkmate: false,
+        //     message: "Draw! Neither side has any offensive pieces."
+        //   };
+        //   this.dispatchEvent(new CustomEvent('move', { detail: moveDetails }));
+        //   this.dispatchEvent(new CustomEvent('gameover', { detail: gameoverDetails }));
+        //   this.busy = false;
+        //   return;
+        // }
       } else if (this.pos.pcList.length > 100) {
         let captured = false;
         for (let i = 2; i <= 100; ++i) {
@@ -404,7 +404,7 @@ export default class Board extends EventTarget {
     
       this.response();
     }
-    
+    // show message 
     postMate(computerMove) {
       let gameoverDetails = {
         checkmate: true,
@@ -413,22 +413,20 @@ export default class Board extends EventTarget {
       this.dispatchEvent(new CustomEvent('gameover', { detail: gameoverDetails }));
       this.busy = false;
     }
-    
+    // modal choose
     response() {
       if (!this.computerMove()) { // player's move
           this.busy = false;
           return;
       }
-      // else if (this.online) { // online game, opponent's move
-      //     this.busy = true;
-      //     return;
-      // }
       else if (!this.search) { // local game
         this.busy = false;
         return;
       }
     }
     
+
+    //Square
     clickSquare(sq_) {
       if (this.busy || this.result !== RESULT_UNKNOWN) {
         return;
@@ -470,15 +468,27 @@ export default class Board extends EventTarget {
         }
       }
     }
-    
-    restart(fen) {
+
+    flushBoard1() {
+      this.mvLast = this.pos.mvList[this.pos.mvList.length + 1];
+      for (let sq = 0; sq < 256; ++sq) {
+        if (IN_BOARD(sq)) {
+          this.drawSquare(sq, sq == SRC(this.mvLast) || sq == DST(this.mvLast));
+        }
+      }
+    }
+    // function restart
+    restart() {
       if (this.busy) {
         return;
       }
       this.result = RESULT_UNKNOWN;
       this.pos.fromFen(fen);
-      this.flushBoard();
-      this.response();
+      // Position = new Position();
+      // board = new Board();
+      // start();
+      // this.flushBoard();
+      // this.response();
     }
     
     // function Undo
@@ -490,34 +500,33 @@ export default class Board extends EventTarget {
       if (this.pos.mvList.length > 1) {
         this.pos.undoMakeMove();
       }
-      // if (this.pos.mvList.length > 1 && this.computerMove()) {
-      //     console.log(this.computer, this.computerMove());
-      //   this.pos.undoMakeMove();
-      // }
+    
       this.flushBoard();
       this.response();
     }
 
         // function Redo (unfinished)
-
     expand() {
       if (this.busy) {
         return;
       }
       this.result = RESULT_UNKNOWN;
-      if (this.pos.mvList.length > 1) {
-        this.pos.redoMovePiece();
-      }
-      // if (this.pos.mvList.length > 1 && this.computerMove()) {
-      //     console.log(this.computer, this.computerMove());
-      //   this.pos.redoMakeMove();
-      // }
+      if (this.pos.mvList.length > 0) {
+        this.pos.redoMakeMove();
+        console.log("resadzxc");  
+      }     
       this.flushBoard();
       this.response();
     }
      //unfinished
    save(){
      
+  }
+  Restart(){
+    if (this.busy) {
+      return;
+    }
+    
   }
     
 }

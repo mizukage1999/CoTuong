@@ -29,19 +29,18 @@ const elMsgResult = document.getElementById('msgResult');
 const elBtnUndo = document.getElementById('btnUndo');
 const elBtnRedo = document.getElementById('btnRedo');
 const elBtnSave = document.getElementById('btnSave');
-
+const elBtnRestart = document.getElementById('btnRestart');
 
 const elChkBoardSize = document.getElementById('chkBoardSize');
 const elChkAnimated = document.getElementById('chkAnimated');
 const elChkNotiSound = document.getElementById('chkNotiSound');
-const elChkNotiPush = document.getElementById('chkNotiPush');
 
 const MODALS = [
     'mod_gameselect',
     'mod_computer',
     'mod_gameover'
 ];
-
+// show modal
 let showModal = function (name) {
     elBody.classList.add('shade');
     for (let i = 0, len = MODALS.length; i < len; ++i) {
@@ -49,7 +48,7 @@ let showModal = function (name) {
     }
     elBody.classList.add(name);
 }
-
+// modal
 let hideModals = function () {
     elBody.classList.remove('shade');
     for (let i = 0, len = MODALS.length; i < len; ++i) {
@@ -66,7 +65,7 @@ let main = function () {
     let peerCom = new PeerCom();
 
     if (peerId !== null) {
-        console.log('I am slave');
+        console.log('test');
         peerCom.begin(peerId);
     } else {
         console.log('I am master');
@@ -76,8 +75,10 @@ let main = function () {
 
     elBody.classList.remove('preload');
 
-    let board = null;
+    let board = null; 
 
+
+    // start function
     let start = function (computer=false, skill=0) {
         board.animated = (storage.getItem('animated') !== 'disabled');
 
@@ -163,6 +164,14 @@ let main = function () {
         if (board) { board.save() ; }
     });
 
+    
+
+    // Button Restart
+    elBtnRestart.addEventListener('click', function (evt) {
+        board = new Board();
+        start();
+        hideModals();    
+        });
     // Set width height
     let setBoardSize = function () {
         if (storage.getItem('boardSize') === 'disabled') {
@@ -175,6 +184,7 @@ let main = function () {
         }
         resize();
     };
+    //change boardSize
     elChkBoardSize.addEventListener('change', function(evt) {
         let status = elChkBoardSize.checked ? 'enabled' : 'disabled';
         storage.setItem('boardSize', status);
@@ -182,13 +192,14 @@ let main = function () {
     });
     elChkBoardSize.checked = !(storage.getItem('boardSize') === 'disabled');
     setBoardSize();
-
+    //Change status
     elChkNotiSound.addEventListener('change', function(evt) {
         let status = elChkNotiSound.checked ? 'enabled' : 'disabled';
         storage.setItem('notiSound', status);
     });
+    //sound (Un)
     elChkNotiSound.checked = (storage.getItem('notiSound') === 'enabled');
-
+    // Animation
     elChkAnimated.addEventListener('change', function(evt) {
         let status = elChkAnimated.checked ? 'enabled' : 'disabled';
         storage.setItem('animated', status);
@@ -197,31 +208,6 @@ let main = function () {
         }
     });
     elChkAnimated.checked = (storage.getItem('animated') !== 'disabled');
-
-    elChkNotiPush.addEventListener('change', function(evt) {
-        if (notify.pushStatus() !== 'granted' && elChkNotiPush.checked) {
-            notify.pushAsk(function (permission) {
-                if (permission === 'granted') {
-                    storage.setItem('notiPush', 'enabled');
-                }
-                else if (permission === 'denied') {
-                    elChkNotiPush.checked = false;
-                    elChkNotiPush.disabled = true;
-                }
-            });
-        }
-        else {
-            let status = elChkNotiPush.checked ? 'enabled' : 'disabled';
-            storage.setItem('notiPush', status);
-        }
-    });
-    if (notify.pushStatus() === 'denied') { // disable
-        elChkNotiPush.checked = false;
-        elChkNotiPush.disabled = true;
-    }
-    else {
-        elChkNotiPush.checked = (storage.getItem('notiPush') === 'enabled');
-    }
 
 
     // Move

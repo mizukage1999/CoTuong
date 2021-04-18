@@ -1,5 +1,6 @@
 
-
+// khai báo 
+// có thể tham khảo tại https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array
 "use strict";
 
 const DAT = new Uint32Array([
